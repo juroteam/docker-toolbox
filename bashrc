@@ -2,7 +2,7 @@
 
 # Path to the bash it configuration
 export BASH_IT="/root/.bash_it"
-export BASH_IT_THEME='candy'
+export BASH_IT_THEME="candy"
 
 # Don't check mail when opening terminal.
 unset MAILCHECK

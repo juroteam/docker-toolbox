@@ -5,15 +5,15 @@ WORKDIR /root
 RUN apk upgrade --no-cache  \
     && apk add --no-cache \
            groff aws-cli openssl-dev \
-           bash bash-completion \
+           bash bash-completion ncurses \
            jq git vim curl ca-certificates \
-           tcpdump bind-tools redis \
+           tcpdump bind-tools redis py3-setuptools \
     && apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
            pixz \
     && apk add --no-cache --update --virtual .build-deps \
            python3-dev gcc py-pip \
            musl-dev libffi-dev \
-    && CRYPTOGRAPHY_DONT_BUILD_RUST=1 pip3 install --no-cache-dir cryptography==3.3.2 aws-encryption-sdk-cli \
+    && pip3 install --no-cache-dir aws-encryption-sdk-cli \
     && apk del .build-deps \
     && curl -fsSL https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl \
     && chmod u+x /usr/local/bin/kubectl \

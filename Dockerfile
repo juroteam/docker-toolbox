@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.17
 
 WORKDIR /root
 
@@ -6,7 +6,7 @@ RUN apk upgrade --no-cache  \
     && apk add --no-cache \
            groff aws-cli openssl-dev \
            bash bash-completion ncurses \
-           jq git vim curl ca-certificates \
+           tini jq git vim curl ca-certificates \
            tcpdump bind-tools redis py3-setuptools \
     && apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
            pixz \
@@ -21,6 +21,6 @@ RUN apk upgrade --no-cache  \
 
 COPY bashrc .bashrc
 
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT [ "tini" ]
 
-CMD ["-c", "trap : TERM INT; sleep infinity & wait" ]
+CMD ["tail", "-f", "/dev/null"]

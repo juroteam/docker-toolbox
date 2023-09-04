@@ -44,8 +44,6 @@ jobs:
       -
         name: Build and Push Docker Image
         uses: docker/build-push-action@v3
-        env:
-          APP_NAME: ${{ vars.APP_NAME }}
         with:
           file: Dockerfile
           context: .
@@ -54,5 +52,5 @@ jobs:
           cache-to: type=gha,scope=${{ github.workflow }}
           cache-from: type=gha,scope=${{ github.workflow }}
           tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ env.APP_NAME }}:latest
-            ghcr.io/${{ github.repository_owner }}/${{ env.APP_NAME }}:${{ steps.set-version.outputs.version }}
+            ghcr.io/${{ github.repository_owner }}/${{ vars.APP_NAME }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ vars.APP_NAME }}:${{ steps.set-version.outputs.version }}

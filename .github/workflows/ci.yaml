@@ -45,5 +45,5 @@ jobs:
           cache-to: type=gha,scope=${{ github.workflow }}
           cache-from: type=gha,scope=${{ github.workflow }}
           tags: |
-            ${{ env.DOCKERHUB_NAMESPACE }}/${{ vars.APP_NAME }}:latest
-            ${{ env.DOCKERHUB_NAMESPACE }}/${{ vars.APP_NAME }}:${{ steps.set-version.outputs.version }}
+            ${{ vars.DOCKERHUB_NAMESPACE }}/${{ vars.APP_NAME }}:latest
+            ${{ vars.DOCKERHUB_NAMESPACE }}/${{ vars.APP_NAME }}:${{ steps.set-version.outputs.version }}

@@ -1,4 +1,4 @@
-FROM alpine:3.17
+FROM alpine:3.19
 
 WORKDIR /root
 
@@ -7,7 +7,7 @@ RUN apk upgrade --no-cache  \
            groff aws-cli openssl-dev \
            bash bash-completion ncurses \
            tini jq git vim curl ca-certificates \
-           tcpdump bind-tools redis py3-setuptools \
+           tcpdump bind-tools redis py3-setuptools mongodb-tools \
     && apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
            pixz \
     && apk add --no-cache --update --virtual .build-deps \

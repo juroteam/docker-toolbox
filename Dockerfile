@@ -6,7 +6,7 @@ RUN apk upgrade --no-cache  \
     && apk add --no-cache \
            groff aws-cli openssl-dev \
            bash bash-completion ncurses \
-	       mongodb-tools mariadb-backup \
+	   mongodb-tools mariadb-client \
            tini jq git vim curl ca-certificates \
            tcpdump bind-tools redis py3-setuptools \
     && apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \

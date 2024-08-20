@@ -1,4 +1,4 @@
-FROM alpine:3.20
+FROM redis:7.4.0-alpine
 
 WORKDIR /root
 
@@ -8,7 +8,7 @@ RUN apk upgrade --no-cache  \
            bash bash-completion ncurses \
            mongodb-tools mariadb-client \
            tini jq git vim curl ca-certificates \
-           tcpdump bind-tools redis py3-setuptools py3-pip \
+           tcpdump bind-tools py3-setuptools py3-pip \
     && apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
            pixz \
     && curl -fsSL https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl \

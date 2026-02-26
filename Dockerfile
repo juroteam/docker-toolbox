@@ -3,7 +3,6 @@ FROM alpine:3.22
 WORKDIR /root
 
 ARG TARGETARCH
-ARG MONGODB_TOOLS_VERSION=100.14.1
 ARG ATLAS_CLI_VERSION=1.53.0
 
 RUN apk upgrade --no-cache  \
@@ -17,14 +16,10 @@ RUN apk upgrade --no-cache  \
     && apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
            pixz \
     && if [ "$TARGETARCH" = "arm64" ]; then \
-         TOOLS_ARCH="aarch64"; CLI_ARCH="arm64"; KUBE_ARCH="arm64"; \
+         CLI_ARCH="arm64"; KUBE_ARCH="arm64"; \
        elif [ "$TARGETARCH" = "amd64" ]; then \
-         TOOLS_ARCH="x86_64"; CLI_ARCH="x86_64"; KUBE_ARCH="amd64"; \
+         CLI_ARCH="x86_64"; KUBE_ARCH="amd64"; \
        fi \
-    && curl -fsSL "https://fastdl.mongodb.org/tools/db/mongodb-database-tools-amazon2023-${TOOLS_ARCH}-${MONGODB_TOOLS_VERSION}.tgz" \
-       | tar xz -C /tmp \
-    && cp /tmp/mongodb-database-tools-*/bin/* /usr/local/bin/ \
-    && rm -rf /tmp/mongodb-database-tools-* \
     && curl -fsSL "https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_${ATLAS_CLI_VERSION}_linux_${CLI_ARCH}.tar.gz" \
        | tar xz -C /tmp \
     && cp /tmp/mongodb-atlas-cli_*/bin/atlas /usr/local/bin/ \

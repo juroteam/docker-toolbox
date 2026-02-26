@@ -2,16 +2,38 @@ FROM alpine:3.22
 
 WORKDIR /root
 
-RUN apk upgrade --no-cache \
- && apk add --no-cache \
+ARG TARGETARCH
+ARG MONGODB_TOOLS_VERSION=100.14.1
+ARG ATLAS_CLI_VERSION=1.53.0
+
+RUN apk upgrade --no-cache  \
+    && apk add --no-cache \
            groff aws-cli \
            kubectl redis pixz \
            bash bash-completion ncurses \
-           mongodb-tools mariadb-client \
+           mariadb-client gnupg \
            tini jq yq git vim curl ca-certificates \
            tcpdump bind-tools py3-setuptools py3-pip \
- && git clone --depth 1 https://github.com/Bash-it/bash-it.git /root/.bash_it \
- && rm -rf /var/cache/apk/*
+    && apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+           pixz \
+    && if [ "$TARGETARCH" = "arm64" ]; then \
+         TOOLS_ARCH="aarch64"; CLI_ARCH="arm64"; KUBE_ARCH="arm64"; \
+       elif [ "$TARGETARCH" = "amd64" ]; then \
+         TOOLS_ARCH="x86_64"; CLI_ARCH="x86_64"; KUBE_ARCH="amd64"; \
+       fi \
+    && curl -fsSL "https://fastdl.mongodb.org/tools/db/mongodb-database-tools-amazon2023-${TOOLS_ARCH}-${MONGODB_TOOLS_VERSION}.tgz" \
+       | tar xz -C /tmp \
+    && cp /tmp/mongodb-database-tools-*/bin/* /usr/local/bin/ \
+    && rm -rf /tmp/mongodb-database-tools-* \
+    && curl -fsSL "https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_${ATLAS_CLI_VERSION}_linux_${CLI_ARCH}.tar.gz" \
+       | tar xz -C /tmp \
+    && cp /tmp/mongodb-atlas-cli_*/bin/atlas /usr/local/bin/ \
+    && rm -rf /tmp/mongodb-atlas-cli_* \
+    && curl -fsSL "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${KUBE_ARCH}/kubectl" \
+       -o /usr/local/bin/kubectl \
+    && chmod u+x /usr/local/bin/kubectl \
+    && git clone --depth 1 https://github.com/Bash-it/bash-it.git /root/.bash_it \
+    && rm -rf /var/cache/apk/*
 
 COPY bashrc .bashrc
 

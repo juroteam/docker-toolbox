@@ -13,7 +13,7 @@ RUN apk upgrade --no-cache  \
            tini jq yq git vim curl ca-certificates \
            tcpdump bind-tools py3-setuptools py3-pip \
            nodejs npm \
-    && npm install -g mongosh --ignore-scripts \
+    && npm install -g mongosh @mongodb-js/zstd --ignore-scripts \
     && npm cache clean --force \
     && curl -fsSL "https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_${ATLAS_CLI_VERSION}_linux_arm64.tar.gz" \
        | tar xz -C /tmp \

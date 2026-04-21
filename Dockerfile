@@ -7,7 +7,7 @@ ARG ATLAS_CLI_VERSION=1.53.0
 RUN apk upgrade --no-cache  \
     && apk add --no-cache \
            groff aws-cli \
-           kubectl redis pixz mongodb-tools \
+           kubectl redis pixz zstd mongodb-tools \
            bash bash-completion ncurses \
            mariadb-client gnupg \
            tini jq yq git vim curl ca-certificates \

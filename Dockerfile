@@ -7,12 +7,14 @@ ARG ATLAS_CLI_VERSION=1.53.0
 RUN apk upgrade --no-cache  \
     && apk add --no-cache \
            groff aws-cli \
-           kubectl redis pixz zstd mongodb-tools \
+           kubectl pixz zstd mongodb-tools \
            bash bash-completion ncurses \
            mariadb-client gnupg \
            tini jq yq git vim curl ca-certificates \
            tcpdump bind-tools py3-setuptools py3-pip \
            nodejs npm \
+    # Alpine 3.23 has redis 8.4. We use 8.6. redis-check-rdb fails in backup scripts
+    && apk add --no-cache redis --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community \
     && npm install -g mongosh @mongodb-js/zstd --ignore-scripts \
     && npm cache clean --force \
     && curl -fsSL "https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_${ATLAS_CLI_VERSION}_linux_arm64.tar.gz" \
